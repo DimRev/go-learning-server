@@ -15,6 +15,9 @@ func main() {
 		Handler: corsMux,
 	}
 
+	// * Router Handlers
+	mux.HandleFunc("/", rootHandler)
+
 	log.Printf("Serving on port %s", port)
 	log.Fatal(srv.ListenAndServe())
 }
@@ -30,4 +33,8 @@ func middlewareCors(next http.Handler) http.Handler {
 		}
 		next.ServeHTTP(w, r)
 	})
+}
+
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./index.html")
 }
